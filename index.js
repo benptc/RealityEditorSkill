@@ -9,7 +9,7 @@ var PORT = process.env.PORT || 80;
 // var io = require('socket.io')(http);
 var express_app = require("express")();
 var express_server = require('http').Server(express_app);
-var io = require('socket.io')(express_server);
+// var io = require('socket.io')(express_server);
 
 express_app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", '*');
@@ -33,6 +33,8 @@ app.express({
     // development, but not recommended for production. disabled by default
     debug: true
 });
+
+var io = require('socket.io')(app);
 
 // express_server.listen(PORT);
 
