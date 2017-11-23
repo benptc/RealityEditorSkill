@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/benptc/RealityEditorSkill#readme",
   "dependencies": {
-    "alexa-app": "^4.2.0"
+    "alexa-app": "^4.2.0",
+    "request": "^2.83.0"
   }
 }
