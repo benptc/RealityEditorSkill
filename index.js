@@ -34,7 +34,7 @@ app.express({
     debug: true
 });
 
-express_server.listen(PORT);
+// express_server.listen(PORT);
 
 console.log("Listening on port " + PORT + ", try http://localhost:" + PORT + "/test");
 
