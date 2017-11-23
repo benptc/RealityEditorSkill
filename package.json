@@ -1,0 +1,22 @@
+{
+  "name": "realityeditorskill",
+  "version": "1.0.0",
+  "description": "Skill to control Reality Editor with Alexa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benptc/RealityEditorSkill.git"
+  },
+  "author": "Ben Reynolds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benptc/RealityEditorSkill/issues"
+  },
+  "homepage": "https://github.com/benptc/RealityEditorSkill#readme",
+  "dependencies": {
+    "alexa-app": "^4.2.0"
+  }
+}
