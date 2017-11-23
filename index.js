@@ -6,29 +6,26 @@ var app = new alexa.app( 'reality-editor-skill' );
 
 
 app.launch( function( request, response ) {
-    response.say( 'Welcome to your reality editor skill' ).reprompt( 'Way to go. You got it to run. Bad ass.' ).shouldEndSession( false );
-} );
+    response.say( 'Welcome to your reality editor skill' ).reprompt( 'Way to go. You got it to run.' ).shouldEndSession( false );
+});
 
 
 app.error = function( exception, request, response ) {
     console.log(exception)
     console.log(request);
     console.log(response);
-    response.say( 'Sorry an error occured');
+    response.say( 'Sorry an error occurred');
 };
 
-app.intent('sayNumber',
+app.intent('RedOnIntent',
     {
-        "slots":{"number":"NUMBER"}
-        ,"utterances":[
-        "say the number {1-100|number}",
-        "give me the number {1-100|number}",
-        "tell me the number {1-100|number}",
-        "I want to hear you say the number {1-100|number}"]
+        "utterances": [
+            "{Turn|Set} red on",
+            "{Turn|Set} on red",
+            "red on"]
     },
-    function(request,response) {
-        var number = request.slot('number');
-        response.say("You asked for the number "+number);
+    function(request, response) {
+        response.say('I turned on the red node');
     }
 );
 
