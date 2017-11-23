@@ -1,9 +1,52 @@
 module.change_code = 1;
 'use strict';
 
-var request = require('request');
+// var request = require('request');
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'reality-editor-skill' );
+
+var PORT = process.env.PORT || 80;
+// var io = require('socket.io')(http);
+var express_app = require("express")();
+var express_server = require('http').Server(express_app);
+var io = require('socket.io')(express_server);
+
+// app.express({ expressApp: express_app });
+
+app.express({
+    expressApp: express_app,
+
+    // verifies requests come from amazon alexa. Must be enabled for production.
+    // You can disable this if you're running a dev environment and want to POST
+    // things to test behavior. enabled by default.
+    checkCert: false,
+
+    // sets up a GET route when set to true. This is handy for testing in
+    // development, but not recommended for production. disabled by default
+    debug: true
+});
+
+express_server.listen(PORT);
+
+console.log("Listening on port " + PORT + ", try http://localhost:" + PORT + "/test");
+
+io.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
+    });
+});
+
+// var express = require('express')();
+// var http = require('http').Server(express);
+//
+// io.on('connection', function(socket){
+//     console.log('a user connected');
+// });
+//
+// http.listen(3000, function(){
+//     console.log('listening on *:3000');
+// });
 
 var state = {
     'RED': 0.0,
@@ -143,16 +186,17 @@ function handleNewValue(color, value, response) {
 
     state[color] = value;
 
-    httpPost({
-        "color": color,
-        "value": value
-    }, function (body) {
-        var speechOutput = "I set the " + color + " node to " + value;
-        response.say(speechOutput);
-    });
+    var speechOutput = "I set the " + color + " node to " + value;
+    response.say(speechOutput);
 
-    // this.response.speak(speechOutput);
-    // this.emit(':responseReady');
+
+    // httpPost({
+    //     "color": color,
+    //     "value": value
+    // }, function (body) {
+    //     var speechOutput = "I set the " + color + " node to " + value;
+    //     response.say(speechOutput);
+    // });
 
 }
 
@@ -160,34 +204,34 @@ function handleNewValue(color, value, response) {
 // try other APIs such as the current bitcoin price : https://btc-e.com/api/2/btc_usd/ticker  returns ticker.last
 // var request = require('request');
 
-var SERVER_IP = "10.0.1.6";
-
-function httpPost(data, callback) {
-
-    console.log('making post request to ' + 'http://'+SERVER_IP+':3001/newValue with data ' + data.color + ', ' + data.value);
-
-    var options = { method: 'POST',
-        url: 'http://'+SERVER_IP+':3001/newValue',
-        headers:
-            {   'cache-control': 'no-cache',
-                'content-type': 'application/json' },
-        body: { color: data.color, value: data.value },
-        json: true };
-
-    console.log(options);
-
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-
-        console.log(body);
-
-        callback(body);
-
-        // var speechOutput = "I set the " + data.color + " node to " + data.value;
-        // this.response.speak(speechOutput);
-        // this.emit(':responseReady');
-    });
-}
+// var SERVER_IP = "10.0.1.6";
+//
+// function httpPost(data, callback) {
+//
+//     console.log('making post request to ' + 'http://'+SERVER_IP+':3001/newValue with data ' + data.color + ', ' + data.value);
+//
+//     var options = { method: 'POST',
+//         url: 'http://'+SERVER_IP+':3001/newValue',
+//         headers:
+//             {   'cache-control': 'no-cache',
+//                 'content-type': 'application/json' },
+//         body: { color: data.color, value: data.value },
+//         json: true };
+//
+//     console.log(options);
+//
+//     request(options, function (error, response, body) {
+//         if (error) throw new Error(error);
+//
+//         console.log(body);
+//
+//         callback(body);
+//
+//         // var speechOutput = "I set the " + data.color + " node to " + data.value;
+//         // this.response.speak(speechOutput);
+//         // this.emit(':responseReady');
+//     });
+// }
 
 
 module.exports = app;
