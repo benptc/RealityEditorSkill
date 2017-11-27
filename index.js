@@ -1,68 +1,8 @@
 module.change_code = 1;
 'use strict';
 
-// var request = require('request');
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'reality-editor-skill' );
-
-var PORT = process.env.PORT || 80;
-// var io = require('socket.io')(http);
-var express_app = require("express")();
-var express_server = require('http').Server(express_app);
-// var io = require('socket.io')(express_server);
-
-express_app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-});
-
-// app.express({ expressApp: express_app });
-
-app.express({
-    expressApp: express_app,
-
-    // verifies requests come from amazon alexa. Must be enabled for production.
-    // You can disable this if you're running a dev environment and want to POST
-    // things to test behavior. enabled by default.
-    checkCert: false,
-
-    // sets up a GET route when set to true. This is handy for testing in
-    // development, but not recommended for production. disabled by default
-    debug: true
-});
-
-var io = require('socket.io')(app);
-
-// express_app.get('/test', function(request, response) {
-//     response.send('Hello World! (from express_app)');
-// });
-
-// express_server.listen(PORT);
-
-console.log("Listening on port " + PORT + ", try http://localhost:" + PORT + "/test");
-
-io.on('connection', function (socket) {
-    console.log('connection occurred');
-
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
-});
-
-// var express = require('express')();
-// var http = require('http').Server(express);
-//
-// io.on('connection', function(socket){
-//     console.log('a user connected');
-// });
-//
-// http.listen(3000, function(){
-//     console.log('listening on *:3000');
-// });
 
 global.state = {
     'RED': 0.0,
