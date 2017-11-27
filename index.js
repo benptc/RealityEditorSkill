@@ -36,6 +36,14 @@ app.express({
 
 var io = require('socket.io')(app);
 
+express_app.get('/test', function(request, response) {
+    response.send('Hello World! (from express_app)');
+});
+
+app.get('/test', function(request, response) {
+    response.send('Hello World! (from app)');
+});
+
 // express_server.listen(PORT);
 
 console.log("Listening on port " + PORT + ", try http://localhost:" + PORT + "/test");
