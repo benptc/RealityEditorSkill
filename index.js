@@ -64,7 +64,7 @@ io.on('connection', function (socket) {
 //     console.log('listening on *:3000');
 // });
 
-var state = {
+global.state = {
     'RED': 0.0,
     'BLUE': 0.0,
     'GREEN': 0.0
