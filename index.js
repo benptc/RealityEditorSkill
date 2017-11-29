@@ -4,11 +4,13 @@ module.change_code = 1;
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'reality-editor-skill' );
 
-global.state = {
+globalStates.state = {
     'RED': 0.0,
     'BLUE': 0.0,
     'GREEN': 0.0
 };
+
+globalStates.actionQueue = [];
 
 app.launch( function( request, response ) {
     response.say( 'Welcome to your reality editor skill' ).reprompt( 'Way to go. You got it to run.' ).shouldEndSession( false );
@@ -28,6 +30,7 @@ app.intent('RedOnIntent',
             "{Turn|Set} on red",
             "{Turn|Set} on the red node",
             "{Turn|Set} the red node on",
+            "Set the red node to one",
             "Start the red node",
             "Start red",
             "red on"]
@@ -44,6 +47,7 @@ app.intent('RedOffIntent',
             "{Turn|Set} off red",
             "{Turn|Set} off the red node",
             "{Turn|Set} the red node off",
+            "Set the red node to zero",
             "Stop the red node",
             "Stop red",
             "red off"]
@@ -60,6 +64,7 @@ app.intent('GreenOnIntent',
             "{Turn|Set} on green",
             "{Turn|Set} on the green node",
             "{Turn|Set} the green node on",
+            "Set the green node to one",
             "Start the green node",
             "Start green",
             "green on"]
@@ -76,6 +81,7 @@ app.intent('GreenOffIntent',
             "{Turn|Set} off green",
             "{Turn|Set} off the green node",
             "{Turn|Set} the green node off",
+            "Set the green node to zero",
             "Stop the green node",
             "Stop green",
             "green off"]
@@ -92,6 +98,7 @@ app.intent('BlueOnIntent',
             "{Turn|Set} on blue",
             "{Turn|Set} on the blue node",
             "{Turn|Set} the blue node on",
+            "Set the blue node to one",
             "Start the blue node",
             "Start blue",
             "blue on"]
@@ -108,6 +115,7 @@ app.intent('BlueOffIntent',
             "{Turn|Set} off blue",
             "{Turn|Set} off the blue node",
             "{Turn|Set} the blue node off",
+            "Set the blue node to zero",
             "Stop the blue node",
             "Stop blue",
             "blue off"]
@@ -140,7 +148,12 @@ app.intent('CurrentStateIntent',
 
 function handleNewValue(color, value, response) {
 
-    state[color] = value;
+    globalStates.state[color] = value;
+    globalStates.actionQueue.push({
+        color: color,
+        value: value,
+        timestamp: Date.parse(new Date())
+    });
 
     var speechOutput = "I set the " + color + " node to " + value;
     response.say(speechOutput);
