@@ -4,13 +4,13 @@ module.change_code = 1;
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'reality-editor-skill' );
 
-globalStates.state = {
+global.state = {
     'RED': 0.0,
     'BLUE': 0.0,
     'GREEN': 0.0
 };
 
-globalStates.actionQueue = [];
+global.actionQueue = [];
 
 app.launch( function( request, response ) {
     response.say( 'Welcome to your reality editor skill' ).reprompt( 'Way to go. You got it to run.' ).shouldEndSession( false );
@@ -148,8 +148,8 @@ app.intent('CurrentStateIntent',
 
 function handleNewValue(color, value, response) {
 
-    globalStates.state[color] = value;
-    globalStates.actionQueue.push({
+    global.state[color] = value;
+    global.actionQueue.push({
         color: color,
         value: value,
         timestamp: Date.parse(new Date())
